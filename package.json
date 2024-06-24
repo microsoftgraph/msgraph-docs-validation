@@ -31,7 +31,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "glob": "^10.4.1",
+    "glob": "^10.4.2",
     "pluralize": "^8.0.0",
     "vscode-languageserver-textdocument": "^1.0.11",
     "yaml": "^2.4.5"
