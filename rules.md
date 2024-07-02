@@ -38,7 +38,7 @@ Alias: `methods-in-order`
 Applies to: Markdown resource topics (doc_type: resourcePageType)
 
 Methods tables list CRUD operations in proper order:
-Get, Create, List, Update, Delete
+List, Create, Get, Update, Delete
 
 ## MGD005
 
