@@ -34,6 +34,7 @@ async function main() {
         'MGD006',
         'MGD007',
         'MGD008',
+        'MGD009',
       ],
     },
   );
