@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const includeRegEx = /^\[!INCLUDE\s+\[([^\][]*)\]\((.+)\)\]/;
+const includeRegEx = /^\s*\[!INCLUDE\s+\[([^\][]*)\]\((.+)\)\]/;
 
 export default class MarkdownInclude {
   public type: string = MarkdownInclude.name;

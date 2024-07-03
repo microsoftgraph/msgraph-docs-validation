@@ -38,7 +38,7 @@ Alias: `methods-in-order`
 Applies to: Markdown resource topics (doc_type: resourcePageType)
 
 Methods tables list CRUD operations in proper order:
-Get, Create, List, Update, Delete
+List, Create, Get, Update, Delete
 
 ## MGD005
 
@@ -87,3 +87,10 @@ Alias: `tabs-consistent`
 Applies to: Markdown
 
 If multiple tabbed sections exist in a document, they must all contain the same tabs in the same order.
+
+## MGD010
+
+Alias: `no-onmicrosoft-domains`
+Applies to: Markdown
+
+No occurrences of `onmicrosoft.com` appear in email addresses or URLs. See [https://aka.ms/fictitious](https://aka.ms/fictitious) for guidance on acceptable domains.

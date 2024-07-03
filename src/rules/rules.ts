@@ -11,6 +11,7 @@ import MGD006 from './MGD006';
 import MGD007 from './MGD007';
 import MGD008 from './MGD008';
 import MGD009 from './MGD009';
+import MGD010 from './MGD010';
 
 const rules: LintRule[] = [
   new MGD001(),
@@ -22,6 +23,7 @@ const rules: LintRule[] = [
   new MGD007(),
   new MGD008(),
   new MGD009(),
+  new MGD010(),
 ];
 
 export default rules;
