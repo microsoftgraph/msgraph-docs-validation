@@ -10,8 +10,11 @@ import MarkdownPart, {
   createPartCollectionFromLines,
 } from './markdown/markdown-part';
 import MarkdownCodeBlock from './markdown/markdown-codeblock';
+import MarkdownParagraph from './markdown/markdown-paragraph';
 
 const resourceTitleRegex = /(\S+)\s+resource\s+type/;
+const ruleToggleComment =
+  /^<!--\s*msgraph-(?<type>[a-zA-z]*)\s*(?<rules>[\w\s]*)\s*-->\s*$/i;
 
 export enum TopicType {
   Api,
@@ -41,12 +44,24 @@ export type ResourceElements = {
   jsonRepresentationIndex?: number;
 };
 
+export type InFileSuppressedRules = {
+  ruleId: string;
+  disabledLines: string;
+};
+
+type RuleToggle = {
+  ruleIds: string;
+  toggleType: string;
+  lineNumber: number;
+};
+
 export default class MarkdownDocument extends Document {
   public topicType: TopicType = TopicType.Unknown;
   public yamlHeader?: YamlHeader;
   public docParts: MarkdownPart[] = [];
   public docSections: DocSection[] = [];
   public resourceElements?: ResourceElements;
+  public inFileSuppressions: InFileSuppressedRules[] = [];
 
   constructor(file: string | TextDocument) {
     super(file);
@@ -118,6 +133,8 @@ export default class MarkdownDocument extends Document {
       endIndex: -1,
     };
 
+    const ruleToggles: RuleToggle[] = [];
+
     this.docParts.forEach((part, index) => {
       if (part.type === MarkdownHeading.name) {
         const heading = part as MarkdownHeading;
@@ -134,6 +151,21 @@ export default class MarkdownDocument extends Document {
           currentSection.title = heading.title;
           currentSection.startIndex = index;
         }
+      }
+
+      if (part.type === MarkdownParagraph.name) {
+        // Check for any disable/enable comments
+        const paragraph = part as MarkdownParagraph;
+
+        paragraph.lines.forEach((line, index) => {
+          const toggle = this.ToggleFromLine(
+            line,
+            paragraph.lineNumber + index,
+          );
+          if (toggle) {
+            ruleToggles.push(toggle);
+          }
+        });
       }
 
       if (index === this.docParts.length - 1) {
@@ -261,5 +293,36 @@ export default class MarkdownDocument extends Document {
     }
 
     return resourceElements;
+  }
+
+  private ToggleFromLine(value: string, lineNumber: number): RuleToggle | null {
+    if (value) {
+      const match = ruleToggleComment.exec(value);
+      if (match && match.groups && match.groups['type']) {
+        const toggleType = match.groups['type'].toLowerCase();
+        if (toggleType === 'enable' || toggleType === 'disable') {
+          const toggle: RuleToggle = {
+            toggleType: toggleType,
+            lineNumber: lineNumber,
+            ruleIds:
+              match.groups['rules'].length > 0
+                ? match.groups['rules'].trim()
+                : 'all',
+          };
+          return toggle;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private SetInFileSuppressions(toggles: RuleToggle[]) {
+    toggles.forEach((toggle) => {
+      if (toggle.ruleIds === 'all') {
+        // Update the all entry
+
+      }
+    })
   }
 }

@@ -15,5 +15,13 @@
     ".vscode",
     ".vscode-insiders",
     "test/testData"
+  ],
+  "markdownlint.lintWorkspaceGlobs": [
+    "**/*.{md,mkd,mdwn,mdown,markdown,markdn,mdtxt,mdtext,workbook}",
+    "!**/bower_components",
+    "!**/node_modules",
+    "!**/vendor",
+    "!**/.git",
+    "!**/testData"
   ]
 }
